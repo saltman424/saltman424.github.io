@@ -1,0 +1,5 @@
+title: Sander Altman
+description: Senior full-stack engineer with 8 years building enterprise software from 0→1, currently leading AI strategy and innovation initiatives. Deep expertise in cloud-native architecture (AWS serverless), TypeScript/Node.js ecosystem, and LLM-powered solutions.
+remote_theme: pages-themes/hacker@v0.2.0
+plugins:
+- jekyll-remote-theme
