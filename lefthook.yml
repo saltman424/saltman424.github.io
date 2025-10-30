@@ -1,0 +1,6 @@
+pre-commit:
+  jobs:
+    - name: build static site
+      run: pnpm run build
+    - name: stage static site
+      run: git add docs
