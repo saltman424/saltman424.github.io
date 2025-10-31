@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #0a0a0a;
+  color: #fff;
+  overflow-x: hidden;
+  cursor: url('/cursor.png') 16 16, auto;
+  width: 100vw;
+  height: 100vh;
+  min-width: 320px;
+  margin: 0;
+}
