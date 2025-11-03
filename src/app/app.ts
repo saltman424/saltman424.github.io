@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 
 import { UiStore } from './state';
-import { Background, Gui, Cli, UiToggle } from './components';
+import { Background, Cli, Gui, Intro, UiToggle } from './components';
 
 @Component({
   selector: 'app-root',
-  imports: [Background, Gui, Cli, UiToggle],
+  imports: [Background, Cli, Gui, Intro, UiToggle],
   template: `
     @let ui = uiStore.ui();
 
@@ -13,10 +13,16 @@ import { Background, Gui, Cli, UiToggle } from './components';
     @if (ui) {
       <app-ui-toggle />
     }
-    @if (ui === 'gui') {
-      <app-gui />
-    } @else {
-      <app-cli />
+    @switch (ui) {
+      @case ('gui') {
+        <app-gui />
+      }
+      @case ('cli') {
+        <app-cli />
+      }
+      @default {
+        <app-intro />
+      }
     }
   `,
   styles: [],

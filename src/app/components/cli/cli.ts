@@ -8,7 +8,7 @@ import { CommandsStore } from '../../state';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="terminal-wrapper" (click)="focusInput()">
+    <div class="terminal-wrapper" animate.enter="terminal-enter" (click)="focusInput()">
       <!-- Terminal Header -->
       <div class="terminal-header">
         <div class="status-dots">
@@ -99,6 +99,24 @@ import { CommandsStore } from '../../state';
         z-index: 1;
         width: 100%;
         max-width: 64rem;
+      }
+
+      .terminal-enter {
+        animation: 1s slide-fade 0.4s ease-in-out backwards;
+      }
+      @keyframes slide-fade {
+        from {
+          opacity: 0;
+          max-width: 0;
+          max-height: 0;
+          // transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          max-width: 64rem;
+          max-height: 100vh;
+          // transform: translateY(0);
+        }
       }
 
       .terminal-header {
