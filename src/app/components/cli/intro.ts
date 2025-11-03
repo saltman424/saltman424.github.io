@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
             </div>
             <div class="terminal-title">system.terminal</div>
           </div>
-          
+
           <!-- Terminal Content -->
           <div class="terminal-content">
             <!-- Typed Text -->
@@ -32,7 +32,7 @@ import { CommonModule } from '@angular/common';
                 <span class="cursor"></span>
               </span>
             </div>
-            
+
             <!-- Options -->
             <div class="options-container" [class.show]="showOptions">
               <!-- Graphical Option -->
@@ -42,7 +42,8 @@ import { CommonModule } from '@angular/common';
                 (click)="handleOptionClick('graphical')"
                 (mouseenter)="hoveredOption = 'graphical'"
                 (mouseleave)="hoveredOption = null"
-                [class.hovered]="hoveredOption === 'graphical' && !selectedOption">
+                [class.hovered]="hoveredOption === 'graphical' && !selectedOption"
+              >
                 <div class="glow-effect"></div>
                 <div class="option-content">
                   <div class="icon">🖥️</div>
@@ -50,7 +51,7 @@ import { CommonModule } from '@angular/common';
                   <div class="option-description">Modern visual interface</div>
                 </div>
               </button>
-              
+
               <!-- Command-line Option -->
               <button
                 class="option-card"
@@ -58,7 +59,8 @@ import { CommonModule } from '@angular/common';
                 (click)="handleOptionClick('command-line')"
                 (mouseenter)="hoveredOption = 'command-line'"
                 (mouseleave)="hoveredOption = null"
-                [class.hovered]="hoveredOption === 'command-line' && !selectedOption">
+                [class.hovered]="hoveredOption === 'command-line' && !selectedOption"
+              >
                 <div class="glow-effect"></div>
                 <div class="option-content">
                   <div class="icon">⌨️</div>
@@ -67,218 +69,236 @@ import { CommonModule } from '@angular/common';
                 </div>
               </button>
             </div>
-            
+
             <!-- Decorative Scan Line Effect -->
             <div class="scanline" *ngIf="showOptions"></div>
           </div>
         </div>
-        
+
         <!-- Additional Glow -->
         <div class="background-glow"></div>
       </div>
     </div>
   `,
-  styles: [`
-    .container {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      background-color: #0a0a0a;
-    }
-
-    .terminal-wrapper {
-      width: 100%;
-      max-width: 48rem;
-      position: relative;
-    }
-
-    .terminal-window {
-      border-radius: 0.5rem;
-      overflow: hidden;
-      background-color: #0f0f0f;
-      box-shadow: 
-        0 0 60px rgba(0, 255, 255, 0.15),
-        0 0 100px rgba(0, 255, 255, 0.05);
-    }
-
-    .terminal-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1rem;
-      background-color: #1a1a1a;
-      border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-    }
-
-    .header-buttons {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .button {
-      width: 0.75rem;
-      height: 0.75rem;
-      border-radius: 50%;
-    }
-
-    .button.red { background-color: #ff5f56; }
-    .button.yellow { background-color: #ffbd2e; }
-    .button.green { background-color: #27c93f; }
-
-    .terminal-title {
-      flex: 1;
-      text-align: center;
-      font-size: 0.875rem;
-      font-family: 'Courier New', monospace;
-      color: #00ffff;
-      opacity: 0.7;
-    }
-
-    .terminal-content {
-      padding: 2rem;
-      font-family: 'Courier New', monospace;
-    }
-
-    .typed-text {
-      font-size: 1.25rem;
-      margin-bottom: 2rem;
-      display: flex;
-      align-items: center;
-    }
-
-    .prompt {
-      margin-right: 0.5rem;
-      color: #00ffff;
-    }
-
-    .text {
-      color: #e0e0e0;
-    }
-
-    .cursor {
-      display: inline-block;
-      width: 0.5rem;
-      height: 1.25rem;
-      margin-left: 0.25rem;
-      background-color: #00ffff;
-      animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
-    .options-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.7s ease;
-    }
-
-    .options-container.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (min-width: 640px) {
-      .options-container {
-        flex-direction: row;
+  styles: [
+    `
+      .container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        background-color: #0a0a0a;
       }
-    }
 
-    .option-card {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-      border-radius: 0.5rem;
-      padding: 1.5rem;
-      background-color: rgba(0, 255, 255, 0.05);
-      border: 2px solid rgba(0, 255, 255, 0.3);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+      .terminal-wrapper {
+        width: 100%;
+        max-width: 48rem;
+        position: relative;
+      }
 
-    .option-card.hovered {
-      background-color: rgba(0, 255, 255, 0.1);
-      border-color: #00ffff;
-      transform: translateY(-4px);
-    }
+      .terminal-window {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        background-color: #0f0f0f;
+        box-shadow:
+          0 0 60px rgba(0, 255, 255, 0.15),
+          0 0 100px rgba(0, 255, 255, 0.05);
+      }
 
-    .option-card.selected {
-      background-color: rgba(0, 255, 255, 0.15);
-      border-color: #00ffff;
-      transform: scale(1.05);
-    }
+      .terminal-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        background-color: #1a1a1a;
+        border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+      }
 
-    .glow-effect {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
+      .header-buttons {
+        display: flex;
+        gap: 0.5rem;
+      }
 
-    .option-card.hovered .glow-effect {
-      opacity: 1;
-    }
+      .button {
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+      }
 
-    .option-content {
-      position: relative;
-      z-index: 1;
-    }
+      .button.red {
+        background-color: #ff5f56;
+      }
+      .button.yellow {
+        background-color: #ffbd2e;
+      }
+      .button.green {
+        background-color: #27c93f;
+      }
 
-    .icon {
-      font-size: 2.25rem;
-      margin-bottom: 0.75rem;
-    }
+      .terminal-title {
+        flex: 1;
+        text-align: center;
+        font-size: 0.875rem;
+        font-family: 'Courier New', monospace;
+        color: #00ffff;
+        opacity: 0.7;
+      }
 
-    .option-title {
-      font-size: 1.125rem;
-      font-weight: bold;
-      color: #00ffff;
-      margin-bottom: 0.5rem;
-    }
+      .terminal-content {
+        padding: 2rem;
+        font-family: 'Courier New', monospace;
+      }
 
-    .option-description {
-      font-size: 0.875rem;
-      color: rgba(224, 224, 224, 0.7);
-    }
+      .typed-text {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+      }
 
-    .scanline {
-      margin-top: 1.5rem;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #00ffff, transparent);
-      animation: scanline 3s ease-in-out infinite;
-    }
+      .prompt {
+        margin-right: 0.5rem;
+        color: #00ffff;
+      }
 
-    @keyframes scanline {
-      0%, 100% { opacity: 0; }
-      50% { opacity: 1; }
-    }
+      .text {
+        color: #e0e0e0;
+      }
 
-    .background-glow {
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      filter: blur(3rem);
-      opacity: 0.2;
-      background: radial-gradient(circle at center, #00ffff 0%, transparent 70%);
-    }
-  `]
+      .cursor {
+        display: inline-block;
+        width: 0.5rem;
+        height: 1.25rem;
+        margin-left: 0.25rem;
+        background-color: #00ffff;
+        animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      .options-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.7s ease;
+      }
+
+      .options-container.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (min-width: 640px) {
+        .options-container {
+          flex-direction: row;
+        }
+      }
+
+      .option-card {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        background-color: rgba(0, 255, 255, 0.05);
+        border: 2px solid rgba(0, 255, 255, 0.3);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .option-card.hovered {
+        background-color: rgba(0, 255, 255, 0.1);
+        border-color: #00ffff;
+        transform: translateY(-4px);
+      }
+
+      .option-card.selected {
+        background-color: rgba(0, 255, 255, 0.15);
+        border-color: #00ffff;
+        transform: scale(1.05);
+      }
+
+      .glow-effect {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at center, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .option-card.hovered .glow-effect {
+        opacity: 1;
+      }
+
+      .option-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .icon {
+        font-size: 2.25rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .option-title {
+        font-size: 1.125rem;
+        font-weight: bold;
+        color: #00ffff;
+        margin-bottom: 0.5rem;
+      }
+
+      .option-description {
+        font-size: 0.875rem;
+        color: rgba(224, 224, 224, 0.7);
+      }
+
+      .scanline {
+        margin-top: 1.5rem;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #00ffff, transparent);
+        animation: scanline 3s ease-in-out infinite;
+      }
+
+      @keyframes scanline {
+        0%,
+        100% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .background-glow {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        filter: blur(3rem);
+        opacity: 0.2;
+        background: radial-gradient(circle at center, #00ffff 0%, transparent 70%);
+      }
+    `,
+  ],
 })
 export class Intro implements OnInit, OnDestroy {
   displayedText = '';
   showOptions = false;
   selectedOption: string | null = null;
   hoveredOption: string | null = null;
-  
+
   private fullText = 'Welcome! To get started, which interface do you prefer?';
-  private typingInterval: any;
+  private typingInterval?: number;
 
   ngOnInit(): void {
     this.startTypingAnimation();

@@ -6,6 +6,6 @@ import { Header } from './header';
   standalone: true,
   imports: [Header],
   template: `<app-header />`,
-  styles: []
+  styles: [],
 })
 export class Gui {}

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 
-import { UiStore } from './state'
-import { Background, Gui, Cli, UiToggle } from './components'
+import { UiStore } from './state';
+import { Background, Gui, Cli, UiToggle } from './components';
 
 @Component({
   selector: 'app-root',
@@ -13,15 +13,14 @@ import { Background, Gui, Cli, UiToggle } from './components'
     @if (ui) {
       <app-ui-toggle />
     }
-    @if(ui === 'gui') {
+    @if (ui === 'gui') {
       <app-gui />
-    }
-    @else {
+    } @else {
       <app-cli />
     }
   `,
   styles: [],
 })
 export class App {
-  public readonly uiStore = inject(UiStore)
+  public readonly uiStore = inject(UiStore);
 }

@@ -11,15 +11,18 @@ I'm currently driving AI strategy and innovation initiatives, turning bleeding-e
 ### Technical Expertise
 
 **Languages & Frameworks**
+
 - TypeScript/JavaScript, Node.js, Angular, Python
 - GraphQL, REST, SQL, Java, C/C++
 
 **Cloud & Infrastructure**
+
 - AWS serverless (Lambda, DynamoDB, RDS, AppSync, Cognito, S3, CloudFront)
 - Infrastructure-as-code (AWS CDK), CI/CD pipelines
 - Multi-tenant SaaS architecture
 
 **AI/ML**
+
 - Amazon Bedrock, Microsoft 365 Agents SDK
 - RAG, MCP, LangGraph, context engineering
 - Production LLM integration and orchestration

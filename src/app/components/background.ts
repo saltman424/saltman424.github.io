@@ -1,6 +1,6 @@
 import { Component, OnDestroy, ElementRef, viewChild, effect, computed } from '@angular/core';
 
-const PARTICLE_COUNT = 200
+const PARTICLE_COUNT = 200;
 
 interface Particle {
   x: number;
@@ -11,36 +11,38 @@ interface Particle {
 }
 
 interface CanvasInfo {
-  canvas: HTMLCanvasElement
-  context: CanvasRenderingContext2D
+  canvas: HTMLCanvasElement;
+  context: CanvasRenderingContext2D;
 }
 
 @Component({
   selector: 'app-background',
   standalone: true,
   template: `<canvas #particleCanvas></canvas>`,
-  styles: [`
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-    }
-  `]
+  styles: [
+    `
+      canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+      }
+    `,
+  ],
 })
 export class Background implements OnDestroy {
-  private canvasRef = viewChild<ElementRef<HTMLCanvasElement>>('particleCanvas')
-  
+  private canvasRef = viewChild<ElementRef<HTMLCanvasElement>>('particleCanvas');
+
   private info = computed<CanvasInfo | undefined>((canvasRef = this.canvasRef()) => {
     if (!canvasRef) {
-      return undefined
+      return undefined;
     }
-    const canvas = canvasRef.nativeElement
-    const context = canvas.getContext('2d')
+    const canvas = canvasRef.nativeElement;
+    const context = canvas.getContext('2d');
     if (!canvas || !context) {
-      return undefined
+      return undefined;
     }
-    return { canvas, context }
+    return { canvas, context };
   });
 
   private particles: Particle[] = [];
@@ -49,48 +51,48 @@ export class Background implements OnDestroy {
 
   constructor() {
     effect(() => {
-      const canvas = this.canvasRef()?.nativeElement
+      const canvas = this.canvasRef()?.nativeElement;
       if (!canvas) {
-        return
+        return;
       }
-    
+
       this.resizeCanvas();
       this.initParticles();
       this.animate();
 
-      this.resizeObserver = new ResizeObserver(() => this.resizeCanvas())
-      this.resizeObserver.observe(document.body)
-    })
+      this.resizeObserver = new ResizeObserver(() => this.resizeCanvas());
+      this.resizeObserver.observe(document.body);
+    });
   }
 
   ngOnDestroy(): void {
     if (this.animationId) {
       cancelAnimationFrame(this.animationId);
     }
-    this.resizeObserver?.disconnect()
+    this.resizeObserver?.disconnect();
   }
 
   private resizeCanvas(): void {
     this.useCanvas(({ canvas }) => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-    })
+    });
   }
 
   private initParticles(): void {
     this.useCanvas(({ canvas }) => {
       this.particles = [];
-      
+
       for (let i = 0; i < PARTICLE_COUNT; i++) {
         this.particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
           vx: (Math.random() - 0.5) * 0.5,
           vy: (Math.random() - 0.5) * 0.5,
-          radius: Math.random() * 2
+          radius: Math.random() * 2,
         });
       }
-    })
+    });
   }
 
   private updateParticle(particle: Particle): void {
@@ -100,7 +102,7 @@ export class Background implements OnDestroy {
 
       if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
       if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
-    })
+    });
   }
 
   private drawParticle(particle: Particle): void {
@@ -109,7 +111,7 @@ export class Background implements OnDestroy {
       context.beginPath();
       context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
       context.fill();
-    })
+    });
   }
 
   private drawConnections(): void {
@@ -130,27 +132,27 @@ export class Background implements OnDestroy {
           }
         }
       }
-    })
+    });
   }
 
   private animate(): void {
     this.useCanvas(({ canvas, context }) => {
       context.clearRect(0, 0, canvas.width, canvas.height);
-  
-      this.particles.forEach(particle => {
+
+      this.particles.forEach((particle) => {
         this.updateParticle(particle);
         this.drawParticle(particle);
       });
-  
+
       this.drawConnections();
       this.animationId = requestAnimationFrame(() => this.animate());
-    })
+    });
   }
 
   private useCanvas(cb: (info: CanvasInfo) => void): void {
-    const info = this.info()
+    const info = this.info();
     if (info) {
-      cb(info)
+      cb(info);
     }
   }
 }

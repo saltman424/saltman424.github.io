@@ -30,7 +30,7 @@ export class CommandsStore {
         '  scan      - Perform system scan',
         '  hack      - Initialize hacking sequence',
       ],
-      type: 'success'
+      type: 'success',
     }),
     about: () => ({
       output: [
@@ -39,7 +39,7 @@ export class CommandsStore {
         'Built with cutting-edge Angular technology',
         'Designed for the modern web',
       ],
-      type: 'info'
+      type: 'info',
     }),
     skills: () => ({
       output: [
@@ -50,7 +50,7 @@ export class CommandsStore {
         '→ DevOps: Docker, Kubernetes, AWS',
         '→ Other: TypeScript, GraphQL, WebGL',
       ],
-      type: 'success'
+      type: 'success',
     }),
     projects: () => ({
       output: [
@@ -61,7 +61,7 @@ export class CommandsStore {
         '[04] Cybersecurity Monitor',
         '[05] AI Chat Interface',
       ],
-      type: 'info'
+      type: 'info',
     }),
     contact: () => ({
       output: [
@@ -71,7 +71,7 @@ export class CommandsStore {
         'LinkedIn: linkedin.com/in/cyberdev',
         'Website: cyberterm.io',
       ],
-      type: 'success'
+      type: 'success',
     }),
     clear: () => {
       this.history.set([]);
@@ -85,7 +85,7 @@ export class CommandsStore {
         '1010101010101010101010101010',
         'MATRIX MODE ACTIVATED...',
       ],
-      type: 'matrix'
+      type: 'matrix',
     }),
     scan: () => ({
       output: [
@@ -96,7 +96,7 @@ export class CommandsStore {
         '✓ All systems operational',
       ],
       type: 'success',
-      animated: true
+      animated: true,
     }),
     hack: () => ({
       output: [
@@ -107,7 +107,7 @@ export class CommandsStore {
         '⚠ ACCESS GRANTED ⚠',
       ],
       type: 'warning',
-      animated: true
+      animated: true,
     }),
   };
 
@@ -141,20 +141,23 @@ export class CommandsStore {
 
     const newEntry: Partial<HistoryEntry> = {
       command: this.input,
-      timestamp: new Date().toLocaleTimeString()
+      timestamp: new Date().toLocaleTimeString(),
     };
 
     if (this.commands[cmd]) {
       const result = this.commands[cmd]();
       if (result) {
-        this.history.update(h => [...h, { ...newEntry, ...result } as HistoryEntry]);
+        this.history.update((h) => [...h, { ...newEntry, ...result } as HistoryEntry]);
       }
     } else {
-      this.history.update(h => [...h, {
-        ...newEntry,
-        output: [`Command not found: ${this.input}`, 'Type "help" for available commands'],
-        type: 'error'
-      } as HistoryEntry]);
+      this.history.update((h) => [
+        ...h,
+        {
+          ...newEntry,
+          output: [`Command not found: ${this.input}`, 'Type "help" for available commands'],
+          type: 'error',
+        } as HistoryEntry,
+      ]);
     }
 
     this.input = '';
