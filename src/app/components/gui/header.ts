@@ -68,6 +68,7 @@ const ANIMATION_TIMINGS = [
         align-items: center;
         justify-content: center;
         overflow: hidden;
+        pointer-events: none;
       }
 
       .content {

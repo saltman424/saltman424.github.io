@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommandsStore } from '../../state';
 
+const TITLE = 'INFO TERMINAL';
+
 @Component({
   selector: 'app-cli',
   standalone: true,
@@ -28,9 +30,11 @@ import { CommandsStore } from '../../state';
       <div #terminalBody class="terminal-body">
         <!-- Welcome Message -->
         <div class="welcome-message">
-          <div class="welcome-line">╔════════════════════════════════════╗</div>
-          <div class="welcome-line">║ CYBER TERMINAL v3.14 READY ║</div>
-          <div class="welcome-line">╚════════════════════════════════════╝</div>
+          <div class="welcome-line">╔═══════════════════════════════════╗</div>
+          <!-- prettier-ignore -->
+          <div class="welcome-line"
+              ngPreserveWhitespaces>║   Sander Altman — Info Terminal   ║</div>
+          <div class="welcome-line">╚═══════════════════════════════════╝</div>
           <div class="welcome-help">Type 'help' to see available commands</div>
         </div>
 
@@ -66,7 +70,6 @@ import { CommandsStore } from '../../state';
             spellcheck="false"
             autocomplete="off"
           />
-          <span class="cursor">█</span>
         </div>
       </div>
 
@@ -92,6 +95,7 @@ import { CommandsStore } from '../../state';
         align-items: center;
         justify-content: center;
         padding: 1rem;
+        box-sizing: border-box;
         background-color: #0a0a0a;
       }
 
@@ -99,23 +103,22 @@ import { CommandsStore } from '../../state';
         z-index: 1;
         width: 100%;
         max-width: 64rem;
+        overflow: hidden;
       }
 
       .terminal-enter {
-        animation: 1s slide-fade 0.4s ease-in-out backwards;
+        animation: 1s terminal-appear 0.4s ease-in-out backwards;
       }
-      @keyframes slide-fade {
+      @keyframes terminal-appear {
         from {
           opacity: 0;
           max-width: 0;
           max-height: 0;
-          // transform: translateY(20px);
         }
         to {
           opacity: 1;
           max-width: 64rem;
           max-height: 100vh;
-          // transform: translateY(0);
         }
       }
 
@@ -189,7 +192,7 @@ import { CommandsStore } from '../../state';
         );
         box-shadow:
           inset 0 0 100px rgba(0, 255, 255, 0.1),
-          0 0 40px rgba(0, 255, 255, 0.3);
+          0 0 15px rgba(0, 255, 255, 0.3);
         cursor: text;
       }
 
@@ -215,6 +218,7 @@ import { CommandsStore } from '../../state';
       .welcome-line {
         font-size: 1.125rem;
         margin-bottom: 0.5rem;
+        white-space: pre-wrap;
       }
 
       .welcome-help {
@@ -300,11 +304,6 @@ import { CommandsStore } from '../../state';
         caret-color: #00ffff;
       }
 
-      .cursor {
-        color: #00ffff;
-        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-      }
-
       .status-bar {
         margin-top: 0.5rem;
         display: flex;
@@ -354,25 +353,24 @@ export class Cli {
   public readonly terminalInput = viewChild<ElementRef<HTMLInputElement>>('terminalInput');
   public readonly terminalBody = viewChild<ElementRef<HTMLDivElement>>('terminalBody');
 
-  public glitchText = signal('TERMINAL_ONLINE');
-  public currentDate = new Date().toLocaleDateString();
-  public currentTime = signal(new Date().toLocaleTimeString());
-  public cpuUsage = signal(Math.floor(Math.random() * 30 + 20));
-  public memUsage = signal(Math.floor(Math.random() * 40 + 40));
-  public latency = signal(Math.floor(Math.random() * 20 + 10));
+  public readonly glitchText = signal(TITLE);
+  public readonly currentDate = new Date().toLocaleDateString();
+  public readonly currentTime = signal(new Date().toLocaleTimeString());
+  public readonly cpuUsage = signal(Math.floor(Math.random() * 30 + 20));
+  public readonly memUsage = signal(Math.floor(Math.random() * 40 + 40));
+  public readonly latency = signal(Math.floor(Math.random() * 20 + 10));
 
   constructor() {
     // Glitch effect
     setInterval(() => {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*';
-      const glitch = 'TERMINAL_ONLINE'
-        .split('')
+      const glitch = TITLE.split('')
         .map((char) =>
           Math.random() > 0.9 ? chars[Math.floor(Math.random() * chars.length)] : char,
         )
         .join('');
       this.glitchText.set(glitch);
-      setTimeout(() => this.glitchText.set('TERMINAL_ONLINE'), 50);
+      setTimeout(() => this.glitchText.set(TITLE), 50);
     }, 3000);
 
     // Update time

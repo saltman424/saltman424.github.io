@@ -21,14 +21,7 @@ import { UiStore } from '../state';
         <!-- Options -->
         <div class="options-container" [class.show]="showOptions()">
           <!-- Graphical Option -->
-          <button
-            class="option-card"
-            [class.selected]="selectedOption === 'graphical'"
-            (click)="uiStore.ui.set('gui')"
-            (mouseenter)="hoveredOption = 'graphical'"
-            (mouseleave)="hoveredOption = null"
-            [class.hovered]="hoveredOption === 'graphical' && !selectedOption"
-          >
+          <button class="option-card" (click)="uiStore.ui.set('gui')">
             <div class="glow-effect"></div>
             <div class="option-content">
               <div class="icon">🖥️</div>
@@ -38,14 +31,7 @@ import { UiStore } from '../state';
           </button>
 
           <!-- Command-line Option -->
-          <button
-            class="option-card"
-            [class.selected]="selectedOption === 'command-line'"
-            (click)="uiStore.ui.set('cli')"
-            (mouseenter)="hoveredOption = 'command-line'"
-            (mouseleave)="hoveredOption = null"
-            [class.hovered]="hoveredOption === 'command-line' && !selectedOption"
-          >
+          <button class="option-card" (click)="uiStore.ui.set('cli')">
             <div class="glow-effect"></div>
             <div class="option-content">
               <div class="icon">⌨️</div>
@@ -67,15 +53,17 @@ import { UiStore } from '../state';
       .container {
         min-height: 100vh;
         display: flex;
-        align-items: center;
         justify-content: center;
         padding: 1rem;
+        box-sizing: border-box;
         background-color: #0a0a0a;
       }
 
       .content-wrapper {
         width: 100%;
         max-width: 48rem;
+        height: 500px;
+        margin-top: calc(50% - 500px);
         position: relative;
       }
 
@@ -85,6 +73,7 @@ import { UiStore } from '../state';
         display: flex;
         align-items: flex-start;
         font-family: 'Courier New', monospace;
+        white-space: pre-line;
         text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
       }
 
@@ -182,11 +171,11 @@ import { UiStore } from '../state';
         transition: left 0.5s ease;
       }
 
-      .option-card.hovered::before {
+      .option-card:hover::before {
         left: 100%;
       }
 
-      .option-card.hovered {
+      .option-card:hover {
         background: linear-gradient(
           135deg,
           rgba(0, 255, 255, 0.1) 0%,
@@ -199,7 +188,7 @@ import { UiStore } from '../state';
           0 0 20px rgba(0, 255, 255, 0.1);
       }
 
-      .option-card.selected {
+      .option-card:active {
         background: linear-gradient(
           135deg,
           rgba(0, 255, 255, 0.15) 0%,
@@ -220,7 +209,7 @@ import { UiStore } from '../state';
         transition: opacity 0.3s ease;
       }
 
-      .option-card.hovered .glow-effect {
+      .option-card:hover .glow-effect {
         opacity: 1;
       }
 
@@ -275,15 +264,14 @@ import { UiStore } from '../state';
 export class Intro implements OnInit, OnDestroy {
   public readonly uiStore = inject(UiStore);
 
-  displayedText = computed((displayedTextLength = this.displayedTextLength()) =>
+  public readonly displayedText = computed((displayedTextLength = this.displayedTextLength()) =>
     this.fullText.slice(0, displayedTextLength),
   );
-  showOptions = signal(false);
-  selectedOption: string | null = null;
-  hoveredOption: string | null = null;
+  public readonly showOptions = signal(false);
+  public readonly selectedOption: string | null = null;
 
-  private fullText = 'Welcome! To get started, which interface do you prefer?';
-  private displayedTextLength = signal(0);
+  private readonly fullText = 'Welcome!\nTo get started, which interface do you prefer?';
+  private readonly displayedTextLength = signal(0);
   private typingInterval?: number;
 
   ngOnInit(): void {
@@ -311,13 +299,5 @@ export class Intro implements OnInit, OnDestroy {
         return newLength;
       });
     }, typingSpeed);
-  }
-
-  handleOptionClick(option: string): void {
-    this.selectedOption = option;
-    setTimeout(() => {
-      alert(`You selected: ${option}`);
-      // In a real app, you would navigate or emit an event here
-    }, 300);
   }
 }
