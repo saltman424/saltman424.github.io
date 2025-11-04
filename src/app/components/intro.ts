@@ -63,7 +63,7 @@ import { UiStore } from '../state';
         width: 100%;
         max-width: 48rem;
         height: 500px;
-        margin-top: calc(50% - 500px);
+        margin-top: max(calc(50vh - 250px), 0px);
         position: relative;
       }
 
