@@ -1,11 +1,18 @@
 import { Injectable, signal } from '@angular/core';
 
+const MAX_COMMAND_LENGTH = 12;
+
 interface HistoryEntry {
   command: string;
   timestamp: string;
   output: string[];
-  type: 'success' | 'error' | 'warning' | 'info' | 'matrix';
+  type: 'default' | 'highlight' | 'success' | 'error' | 'warning';
   animated?: boolean;
+}
+
+interface Command {
+  description: string;
+  run: () => Omit<HistoryEntry, 'command' | 'timestamp'> | void;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -16,99 +23,90 @@ export class CommandsStore {
   public commandHistory: string[] = [];
   public historyIndex = -1;
 
-  public commands: Record<string, () => Omit<HistoryEntry, 'command' | 'timestamp'> | null> = {
-    help: () => ({
-      output: [
-        'Available commands:',
-        '  help      - Display this help message',
-        '  about     - Information about this terminal',
-        '  skills    - Display technical skills',
-        '  projects  - List recent projects',
-        '  contact   - Show contact information',
-        '  clear     - Clear the terminal',
-        '  matrix    - Run matrix animation',
-        '  scan      - Perform system scan',
-        '  hack      - Initialize hacking sequence',
-      ],
-      type: 'success',
-    }),
-    about: () => ({
-      output: [
-        'CYBER TERMINAL v3.14',
-        'A next-generation command interface',
-        'Built with cutting-edge Angular technology',
-        'Designed for the modern web',
-      ],
-      type: 'info',
-    }),
-    skills: () => ({
-      output: [
-        'TECHNICAL PROFICIENCIES:',
-        '→ Frontend: Angular, React, Vue.js',
-        '→ Backend: Node.js, Python, Go',
-        '→ Database: PostgreSQL, MongoDB, Redis',
-        '→ DevOps: Docker, Kubernetes, AWS',
-        '→ Other: TypeScript, GraphQL, WebGL',
-      ],
-      type: 'success',
-    }),
-    projects: () => ({
-      output: [
-        'RECENT PROJECTS:',
-        '[01] Neural Network Dashboard',
-        '[02] Blockchain Explorer',
-        '[03] Real-time Analytics Engine',
-        '[04] Cybersecurity Monitor',
-        '[05] AI Chat Interface',
-      ],
-      type: 'info',
-    }),
-    contact: () => ({
-      output: [
-        'CONTACT INFORMATION:',
-        'Email: dev@cyberterm.io',
-        'GitHub: github.com/cyberdev',
-        'LinkedIn: linkedin.com/in/cyberdev',
-        'Website: cyberterm.io',
-      ],
-      type: 'success',
-    }),
-    clear: () => {
-      this.history.set([]);
-      return null;
+  public commands: Record<string, Command> = {
+    help: {
+      description: 'Display this help message',
+      run: () => ({
+        output: [
+          'Available commands:',
+          ...Object.entries(this.commands).map(
+            ([name, { description }]) =>
+              `  ${name}${' '.repeat(MAX_COMMAND_LENGTH - name.length)}- ${description}`,
+          ),
+        ],
+        type: 'default',
+      }),
     },
-    matrix: () => ({
-      output: [
-        '0101010101010101010101010101',
-        '1010101010101010101010101010',
-        '0101010101010101010101010101',
-        '1010101010101010101010101010',
-        'MATRIX MODE ACTIVATED...',
-      ],
-      type: 'matrix',
-    }),
-    scan: () => ({
-      output: [
-        'Initiating system scan...',
-        'Scanning ports... [████████████] 100%',
-        'Analyzing network traffic...',
-        'Checking security protocols...',
-        '✓ All systems operational',
-      ],
-      type: 'success',
-      animated: true,
-    }),
-    hack: () => ({
-      output: [
-        'INITIALIZING HACK SEQUENCE...',
-        'Bypassing firewall... SUCCESS',
-        'Cracking encryption... SUCCESS',
-        'Accessing mainframe... SUCCESS',
-        '⚠ ACCESS GRANTED ⚠',
-      ],
-      type: 'warning',
-      animated: true,
-    }),
+    about: {
+      description: 'Information about this terminal',
+      run: () => ({
+        output: [
+          '<h3>Sander Altman</h3>',
+          '‣ Senior full-stack engineer with 8 years building enterprise software from 0→1, currently leading AI strategy and innovation initiatives.',
+          '‣ Deep expertise in cloud-native architecture (AWS serverless), TypeScript/Node.js ecosystem, and LLM-powered solutions.',
+          '‣ Transitioned team from feature-factory to outcome-driven product development while scaling from being a sole IC to managing 15+ developers and designers.',
+        ],
+        type: 'highlight',
+      }),
+    },
+    skills: {
+      description: 'Display technical skills',
+      run: () => ({
+        output: [
+          '→ <strong>Languages & Frameworks:</strong> TypeScript/JavaScript, Node.js, Angular, Python, GraphQL, SQL, Java, C/C++',
+          '→ <strong>Cloud & Infrastructure:</strong> AWS serverless (Lambda, DynamoDB, RDS, AppSync, Cognito, S3, CloudFront), infrastructure-as-code (AWS CDK), CI/CD pipelines, multi-tenant SaaS architecture',
+          '→ <strong>AI/ML:</strong> Amazon Bedrock, Microsoft 365 Agents SDK, LangGraph, RAG, MCP, context engineering',
+        ],
+        type: 'default',
+      }),
+    },
+    contact: {
+      description: 'Show contact information',
+      run: () => ({
+        output: [
+          ['GitHub', 'https://github.com/saltman424'],
+          ['LinkedIn', 'https://www.linkedin.com/in/sander-altman'],
+          ['Website', 'https://saltman424.github.io'],
+        ].map(
+          ([label, url]) =>
+            `<strong>${label}:</strong> <a target="_blank" rel="noopener noreferrer" href="${url}">${url.replace(/^https?:\/\/(www.)?/, '')}</a>`,
+        ),
+        type: 'default',
+      }),
+    },
+    clear: {
+      description: 'Clear the terminal',
+      run: () => {
+        this.history.set([]);
+      },
+    },
+    matrix: {
+      description: 'Run matrix animation',
+      run: () => ({
+        output: [
+          '0101010101010101010101010101',
+          '1010101010101010101010101010',
+          '0101010101010101010101010101',
+          '1010101010101010101010101010',
+          'MATRIX MODE ACTIVATED...',
+        ],
+        type: 'success',
+      }),
+    },
+    hack: {
+      description: 'Initialize hacking sequence',
+      run: () => ({
+        output: [
+          'INITIALIZING HACK SEQUENCE...',
+          'Bypassing firewall... default',
+          'Cracking encryption... default',
+          'Accessing mainframe... default',
+          '⚠ ACCESS GRANTED ⚠',
+        ],
+        type: 'warning',
+        animated: true,
+      }),
+    },
   };
 
   public gotoNextCommand(): void {
@@ -145,7 +143,7 @@ export class CommandsStore {
     };
 
     if (this.commands[cmd]) {
-      const result = this.commands[cmd]();
+      const result = this.commands[cmd].run();
       if (result) {
         this.history.update((h) => [...h, { ...newEntry, ...result } as HistoryEntry]);
       }

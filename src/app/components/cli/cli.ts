@@ -39,23 +39,27 @@ const TITLE = 'INFO TERMINAL';
         </div>
 
         <!-- Command History -->
-        <div *ngFor="let entry of commandsStore.history()" class="history-entry">
-          <div class="command-line">
-            <span class="prompt">→</span>
-            <span class="timestamp">[{{ entry.timestamp }}]</span>
-            <span class="command-text">{{ entry.command }}</span>
-          </div>
-          <div class="output" [ngClass]="getTypeClass(entry.type)">
-            <div
-              *ngFor="let line of entry.output; let i = index"
-              [ngClass]="{ 'animated-line': entry.animated }"
-              [style.animation-delay]="entry.animated ? i * 0.1 + 's' : '0s'"
-              [style.text-shadow]="entry.type === 'matrix' ? '0 0 10px currentColor' : 'none'"
-            >
-              {{ line }}
+        @for (entry of commandsStore.history(); track $index) {
+          <div class="history-entry">
+            <div class="command-line">
+              <span class="prompt">→</span>
+              <span class="timestamp">[{{ entry.timestamp }}]</span>
+              <span class="command-text">{{ entry.command }}</span>
+            </div>
+            <div class="output" [class]="getTypeClass(entry.type)">
+              @for (line of entry.output; track $index) {
+                @let i = $index;
+                <div
+                  class="output-line"
+                  [class.animated-line]="entry.animated"
+                  [style.animation-delay]="entry.animated ? i * 0.1 + 's' : '0s'"
+                  [style.text-shadow]="entry.type === 'success' ? '0 0 10px currentColor' : 'none'"
+                  [innerHTML]="line"
+                ></div>
+              }
             </div>
           </div>
-        </div>
+        }
 
         <!-- Input Line -->
         <div class="input-line">
@@ -252,26 +256,26 @@ const TITLE = 'INFO TERMINAL';
 
       .output {
         margin-left: 1rem;
+
+        &.default {
+          color: #22d3ee;
+        }
+        &.highlight {
+          color: #96f3ff;
+        }
+        &.success {
+          color: #4ade80;
+        }
+        &.error {
+          color: #f87171;
+        }
+        &.warning {
+          color: #fbbf24;
+        }
       }
 
-      .output.success {
-        color: #22d3ee;
-      }
-
-      .output.error {
-        color: #f87171;
-      }
-
-      .output.warning {
-        color: #fbbf24;
-      }
-
-      .output.info {
-        color: #67e8f9;
-      }
-
-      .output.matrix {
-        color: #4ade80;
+      .output-line {
+        white-space: pre-wrap;
       }
 
       .animated-line {
