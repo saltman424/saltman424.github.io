@@ -41,7 +41,7 @@ export class CommandsStore {
       }),
     },
     about: {
-      description: 'Information about this terminal',
+      description: 'Learn about Sander Altman',
       run: () => ({
         output: [
           '<h3>Sander Altman</h3>',
@@ -53,7 +53,7 @@ export class CommandsStore {
       }),
     },
     skills: {
-      description: 'Display technical skills',
+      description: 'List technical skills',
       run: () => ({
         output: [
           '→ <strong>Languages & Frameworks:</strong> TypeScript/JavaScript, Node.js, Angular, Python, GraphQL, SQL, Java, C/C++',
@@ -64,7 +64,7 @@ export class CommandsStore {
       }),
     },
     links: {
-      description: 'Where you can learn more',
+      description: 'Find out where you can learn more',
       run: () => ({
         output: [
           ['LinkedIn', 'https://www.linkedin.com/in/sander-altman'],
@@ -77,25 +77,28 @@ export class CommandsStore {
         type: 'default',
       }),
     },
-    clear: {
-      description: 'Clear the terminal',
-      run: () => {
-        this.history.set([]);
-      },
-    },
-    matrix: {
-      description: 'Run matrix animation',
+    luna: {
+      description: 'See something magnificent',
       run: () => ({
         output: [
-          '0101010101010101010101010101',
-          '1010101010101010101010101010',
-          '0101010101010101010101010101',
-          '1010101010101010101010101010',
-          'MATRIX MODE ACTIVATED...',
+          `<img src="luna/${1 + Math.floor(Math.random() * 11)}.jpg" alt="Image of my dog, Luna"/>`,
         ],
-        type: 'success',
+        type: 'default',
       }),
     },
+    // matrix: {
+    //   description: 'Run matrix animation',
+    //   run: () => ({
+    //     output: [
+    //       '0101010101010101010101010101',
+    //       '1010101010101010101010101010',
+    //       '0101010101010101010101010101',
+    //       '1010101010101010101010101010',
+    //       'MATRIX MODE ACTIVATED...',
+    //     ],
+    //     type: 'success',
+    //   }),
+    // },
     hack: {
       description: 'Initialize hacking sequence',
       run: () => ({
@@ -110,8 +113,14 @@ export class CommandsStore {
         animated: true,
       }),
     },
+    clear: {
+      description: 'Clear the terminal',
+      run: () => {
+        this.history.set([]);
+      },
+    },
     quit: {
-      description: 'Exits the terminal',
+      description: 'Go back to the home screen',
       run: () => {
         this.uiStore.ui.set(undefined);
       },

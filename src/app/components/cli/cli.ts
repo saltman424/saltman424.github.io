@@ -397,7 +397,7 @@ export class Cli {
         if (terminalBody) {
           terminalBody.scrollTop = terminalBody.scrollHeight;
         }
-      }, 0);
+      }, 50);
     });
   }
 
