@@ -24,7 +24,7 @@ export class CarouselStore {
     },
     {
       id: 'skills',
-      title: 'Technical Skills',
+      title: 'Skills',
       icon: 'code',
       content: 'Technical Skills',
       details: [
@@ -34,10 +34,10 @@ export class CarouselStore {
       ],
     },
     {
-      id: 'contact',
-      title: 'Contact',
-      icon: 'mail',
-      content: 'Get In Touch',
+      id: 'links',
+      title: 'Links',
+      icon: 'link',
+      content: 'Where To Learn More',
       details: [
         ['LinkedIn', 'https://www.linkedin.com/in/sander-altman'],
         ['GitHub', 'https://github.com/saltman424'],

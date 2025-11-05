@@ -63,8 +63,8 @@ export class CommandsStore {
         type: 'default',
       }),
     },
-    contact: {
-      description: 'Show contact information',
+    links: {
+      description: 'Where you can learn more',
       run: () => ({
         output: [
           ['LinkedIn', 'https://www.linkedin.com/in/sander-altman'],
