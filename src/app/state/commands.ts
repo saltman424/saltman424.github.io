@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+import { UiStore } from './ui';
 
 const MAX_COMMAND_LENGTH = 12;
 
@@ -22,6 +23,8 @@ export class CommandsStore {
   public history = signal<HistoryEntry[]>([]);
   public commandHistory: string[] = [];
   public historyIndex = -1;
+
+  private readonly uiStore = inject(UiStore);
 
   public commands: Record<string, Command> = {
     help: {
@@ -64,8 +67,8 @@ export class CommandsStore {
       description: 'Show contact information',
       run: () => ({
         output: [
-          ['GitHub', 'https://github.com/saltman424'],
           ['LinkedIn', 'https://www.linkedin.com/in/sander-altman'],
+          ['GitHub', 'https://github.com/saltman424'],
           ['Website', 'https://saltman424.github.io'],
         ].map(
           ([label, url]) =>
@@ -106,6 +109,12 @@ export class CommandsStore {
         type: 'warning',
         animated: true,
       }),
+    },
+    quit: {
+      description: 'Exits the terminal',
+      run: () => {
+        this.uiStore.ui.set(undefined);
+      },
     },
   };
 

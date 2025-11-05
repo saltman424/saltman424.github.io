@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { UiStore } from '../state';
+import { Card } from './card';
 
 @Component({
   selector: 'app-intro',
   standalone: true,
-  imports: [CommonModule],
+  imports: [Card],
   template: `
     <div class="container">
       <div class="content-wrapper">
@@ -21,24 +21,20 @@ import { UiStore } from '../state';
         <!-- Options -->
         <div class="options-container" [class.show]="showOptions()">
           <!-- Graphical Option -->
-          <button class="option-card" (click)="uiStore.ui.set('gui')">
-            <div class="glow-effect"></div>
-            <div class="option-content">
-              <div class="icon">🖥️</div>
-              <div class="option-title">Graphical</div>
-              <div class="option-description">Modern visual interface</div>
-            </div>
-          </button>
+          <app-card
+            (click)="uiStore.ui.set('gui')"
+            icon="🖥️"
+            title="Graphical"
+            description="Modern visual interface"
+          />
 
           <!-- Command-line Option -->
-          <button class="option-card" (click)="uiStore.ui.set('cli')">
-            <div class="glow-effect"></div>
-            <div class="option-content">
-              <div class="icon">⌨️</div>
-              <div class="option-title">Command-line</div>
-              <div class="option-description">Terminal-based control</div>
-            </div>
-          </button>
+          <app-card
+            (click)="uiStore.ui.set('cli')"
+            icon="⌨️"
+            title="Command-line"
+            description="Terminal-based control"
+          />
         </div>
 
         <!-- Decorative Scan Line Effect -->
@@ -121,7 +117,8 @@ import { UiStore } from '../state';
 
       .options-container {
         display: flex;
-        flex-direction: column;
+        flex-flow: row nowrap;
+        justify-content: space-around;
         gap: 1rem;
         opacity: 0;
         transform: translateY(20px);
@@ -141,102 +138,6 @@ import { UiStore } from '../state';
         .options-container {
           flex-direction: row;
         }
-      }
-
-      .option-card {
-        flex: 1;
-        position: relative;
-        overflow: hidden;
-        border-radius: 0.5rem;
-        padding: 2rem;
-        background: linear-gradient(
-          135deg,
-          rgba(0, 255, 255, 0.05) 0%,
-          rgba(0, 255, 255, 0.02) 100%
-        );
-        border: 2px solid rgba(0, 255, 255, 0.3);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-      }
-
-      .option-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
-        transition: left 0.5s ease;
-      }
-
-      .option-card:hover::before {
-        left: 100%;
-      }
-
-      .option-card:hover {
-        background: linear-gradient(
-          135deg,
-          rgba(0, 255, 255, 0.1) 0%,
-          rgba(0, 255, 255, 0.05) 100%
-        );
-        border-color: #00ffff;
-        transform: translateY(-4px);
-        box-shadow:
-          0 10px 30px rgba(0, 255, 255, 0.2),
-          0 0 20px rgba(0, 255, 255, 0.1);
-      }
-
-      .option-card:active {
-        background: linear-gradient(
-          135deg,
-          rgba(0, 255, 255, 0.15) 0%,
-          rgba(0, 255, 255, 0.08) 100%
-        );
-        border-color: #00ffff;
-        transform: scale(1.05);
-        box-shadow:
-          0 10px 40px rgba(0, 255, 255, 0.3),
-          0 0 30px rgba(0, 255, 255, 0.2);
-      }
-
-      .glow-effect {
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at center, rgba(0, 255, 255, 0.15) 0%, transparent 70%);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-
-      .option-card:hover .glow-effect {
-        opacity: 1;
-      }
-
-      .option-content {
-        position: relative;
-        z-index: 1;
-      }
-
-      .icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
-      }
-
-      .option-title {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #00ffff;
-        margin-bottom: 0.5rem;
-        font-family: 'Courier New', monospace;
-        text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-      }
-
-      .option-description {
-        font-size: 1rem;
-        color: rgba(224, 224, 224, 0.7);
-        font-family: 'Courier New', monospace;
       }
 
       .scanline {

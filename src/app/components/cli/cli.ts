@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommandsStore } from '../../state';
 
-const TITLE = 'INFO TERMINAL';
+const TITLE = 'SANDER ALTMAN';
 
 @Component({
   selector: 'app-cli',
@@ -19,7 +19,7 @@ const TITLE = 'INFO TERMINAL';
           <div class="dot green"></div>
         </div>
         <div class="terminal-title">
-          {{ glitchText() }}
+          <span style="font-weight: normal; font-style: italic;">SUBJECT:</span> {{ glitchText() }}
         </div>
         <div class="terminal-date">
           {{ currentDate }}
@@ -111,7 +111,7 @@ const TITLE = 'INFO TERMINAL';
       }
 
       .terminal-enter {
-        animation: 1s terminal-appear 0.4s ease-in-out backwards;
+        animation: 1s terminal-appear 0.2s ease-in-out backwards;
       }
       @keyframes terminal-appear {
         from {

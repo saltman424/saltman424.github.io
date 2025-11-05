@@ -6,18 +6,23 @@ const ANIMATION_TIMINGS = [
   1700, // Second epithet
   2400, // Third epithet
   3100, // Shrink
+  4100, // Done
 ];
 
 @Component({
-  selector: 'app-header',
+  selector: 'app-gui-header',
   standalone: true,
   template: `
-    <div class="content" [class.move-top]="animationStage() >= 4">
+    <div
+      class="content"
+      [class.move-top]="animationStage() >= 4"
+      [class.done]="animationStage() >= 5"
+    >
       @if (animationStage() >= 0) {
         <h1 animate.enter="name-enter" [class.shrink]="animationStage() >= 4">Sander Altman</h1>
       }
 
-      <div class="epithets-container">
+      <div class="epithets-container" [class.shrink]="animationStage() >= 4">
         <div class="epithet-wrapper left">
           @if (animationStage() >= 1) {
             <div
@@ -30,7 +35,7 @@ const ANIMATION_TIMINGS = [
           }
         </div>
 
-        <div class="epithet-wrapper center">
+        <div class="epithet-wrapper">
           @if (animationStage() >= 2) {
             <div
               class="epithet"
@@ -72,16 +77,14 @@ const ANIMATION_TIMINGS = [
       }
 
       .content {
-        min-width: 320px;
-        width: 80vw;
-        max-width: 80vw;
         text-align: center;
         transition: all 1s ease-out;
 
         &.move-top {
-          width: 50vw;
-          max-width: 30rem;
-          transform: translateY(-16rem);
+          transform: translateY(calc(-50vh + 4rem));
+        }
+        &.done {
+          transition: none;
         }
       }
 
@@ -118,27 +121,29 @@ const ANIMATION_TIMINGS = [
       }
 
       .epithets-container {
+        width: 100vw;
+        max-width: 100vw;
         display: flex;
         gap: 10px;
         justify-content: center;
         height: 30px;
+        transition: max-width 1s ease-out;
+
+        &.shrink {
+          max-width: 30rem;
+        }
       }
 
       .epithet-wrapper {
         flex: 1;
-        min-width: 100px;
         display: flex;
+        justify-content: center;
 
         &.left {
-          justify-content: flex-start;
-        }
-
-        &.center {
-          justify-content: center;
-        }
-
-        &.right {
           justify-content: flex-end;
+        }
+        &.right {
+          justify-content: flex-start;
         }
       }
 
@@ -179,7 +184,7 @@ const ANIMATION_TIMINGS = [
   ],
 })
 export class Header implements OnInit {
-  animationStage = signal(0);
+  public readonly animationStage = signal(0);
 
   ngOnInit() {
     ANIMATION_TIMINGS.forEach((delay, index) => {
